@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101d35">
+<title>VAULT COACHING</title>
+<style>
+:root{--navy:#101d35;--navy2:#192b4b;--blue:#3478c8;--pale:#edf3fa;--line:#dce4ee;--text:#172338;--muted:#68778d;--white:#fff;--danger:#b84040;--green:#287b59}
+*{box-sizing:border-box}body{margin:0;background:#f4f6fa;color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:9px;padding:10px 15px;background:var(--navy);color:#fff;font-weight:650}button.secondary{background:#e8eef6;color:var(--navy)}button.outline{background:#fff;color:var(--navy);border:1px solid var(--line)}button.danger{background:var(--danger)}button:disabled{opacity:.45;cursor:not-allowed}
+header{background:var(--navy);color:#fff;padding:18px max(20px,calc((100% - 1180px)/2));display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}header h1{font-size:20px;letter-spacing:2px;margin:0}header small{display:block;color:#c4d2e6;font-size:11px;letter-spacing:1.5px;margin-top:3px}.head-actions{display:flex;gap:8px}
+main{max-width:1180px;margin:26px auto;padding:0 18px 60px}.view{display:none}.view.active{display:block}.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:8px 0 18px}.section-head h2{font-size:23px;margin:0}.sub{color:var(--muted);font-size:13px;margin-top:5px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:15px;padding:18px;margin-bottom:16px;box-shadow:0 4px 18px #15274408}.field{display:flex;flex-direction:column;gap:6px;margin:8px 0}.field label{font-size:13px;font-weight:700;color:#3e4d63}.field input,.field select,.field textarea{width:100%;border:1px solid #cbd5e2;border-radius:9px;padding:11px;background:#fff;color:var(--text)}.field textarea{min-height:80px;resize:vertical}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.row .fit{flex:0 0 auto}.muted{color:var(--muted)}.tiny{font-size:12px}.hidden{display:none!important}
+.skill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:13px}.skill-card{background:#fff;border:1px solid var(--line);border-radius:13px;padding:17px;text-align:left;color:var(--text);transition:.15s;min-height:112px}.skill-card:hover{border-color:#7da6d5;transform:translateY(-2px);box-shadow:0 8px 22px #162b4810}.skill-card strong{display:block;font-size:16px;margin-bottom:8px}.skill-card span{font-size:12px;color:var(--muted)}
+.tag{display:inline-block;font-size:11px;border-radius:30px;background:#eaf1fa;color:#294d78;padding:4px 9px;margin-bottom:10px}
+.video-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.video-box{min-width:0;background:#0d1728;border-radius:12px;overflow:hidden;position:relative}.video-box .video-title{padding:10px 13px;color:#fff;font-size:13px;font-weight:700;background:#182943}.video-stage{position:relative;aspect-ratio:16/9;background:#070d17;display:flex;align-items:center;justify-content:center}.video-stage video{width:100%;height:100%;object-fit:contain}.video-stage canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.video-placeholder{color:#9cacc2;font-size:13px;text-align:center;padding:20px}.video-controls{padding:10px;background:#f8fafd;display:flex;gap:7px;flex-wrap:wrap}.video-controls button{font-size:12px;padding:8px 10px}.video-controls input{font-size:12px;max-width:100%}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0}.toolbar button{font-size:13px}.status{padding:10px 12px;background:#edf3fa;border-radius:9px;color:#294768;font-size:13px;margin:10px 0}.status.error{background:#fff0f0;color:#963737}.status.success{background:#eaf6ef;color:#246648}
+.analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.analysis-card{background:#f7f9fc;border:1px solid var(--line);border-radius:11px;padding:14px}.analysis-card h3{font-size:14px;margin:0 0 8px}.analysis-card p{font-size:13px;line-height:1.65;margin:0;color:#405069}.record-list{display:grid;gap:9px}.record{border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.record strong{display:block}.record small{color:var(--muted)}
+.admin-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.admin-tabs button.active{background:var(--blue)}.admin-panel{display:none}.admin-panel.active{display:block}
+footer{text-align:center;color:#8591a3;font-size:11px;padding:20px}
+@media(max-width:700px){main{margin-top:16px}.video-grid,.analysis-grid{grid-template-columns:1fr}.section-head h2{font-size:20px}.panel{padding:13px}.head-actions button{padding:8px 10px;font-size:12px}}
+</style>
+</head>
+<body>
+<header>
+ <div><h1>VAULT COACHING</h1><small>VIDEO COMPARISON & MOVEMENT SUPPORT</small></div>
+ <div class="head-actions"><button class="secondary" id="homeBtn">技を選ぶ</button><button class="secondary" id="recordsBtn">学習記録</button><button class="secondary" id="teacherBtn">先生ページ</button></div>
+</header>
+<main>
+<section id="homeView" class="view active">
+ <div class="section-head"><div><h2>技を選択</h2><div class="sub">取り組む技を選んで、参考動画と自分の動きを比較しよう。</div></div></div>
+ <div class="panel">
+  <div class="row">
+   <div class="field"><label for="studentName">生徒の名前</label><input id="studentName" placeholder="名前を入力してください" autocomplete="name"></div>
+   <div class="field"><label for="skillSearch">技を検索</label><input id="skillSearch" placeholder="技の名前で検索"></div>
+  </div>
+ </div>
+ <div id="skillGrid" class="skill-grid"></div>
+</section>
+
+<section id="coachView" class="view">
+ <div class="section-head"><div><h2 id="selectedSkillTitle">技の比較</h2><div class="sub" id="selectedSkillDesc">参考動画と自分の動画を見比べよう。</div></div><button class="outline fit" id="backHome">技の一覧へ戻る</button></div>
+ <div class="panel">
+  <div class="row">
+   <div class="field"><label>生徒名</label><input id="coachStudentName" placeholder="生徒の名前"></div>
+   <div class="field"><label>選択中の技</label><input id="coachSkillName" disabled></div>
+  </div>
+  <div class="video-grid">
+   <div class="video-box">
+    <div class="video-title">参考動画</div>
+    <div class="video-stage" id="refStage"><div class="video-placeholder">先生が登録した参考動画、または動画ファイルを読み込めます。</div><video id="refVideo" playsinline></video><canvas id="refCanvas"></canvas></div>
+    <div class="video-controls"><label class="outline" style="padding:7px 9px;border-radius:8px;font-size:12px;color:#172338;background:#fff">動画を選択 <input type="file" id="refFile" accept="video/*" hidden></label><button class="secondary" id="refCamera">撮影</button><button class="secondary" id="refPose">骨格表示</button></div>
+   </div>
+   <div class="video-box">
+    <div class="video-title">自分の動画</div>
+    <div class="video-stage" id="studentStage"><div class="video-placeholder">自分の動画を読み込むか、カメラで撮影してください。</div><video id="studentVideo" playsinline></video><canvas id="studentCanvas"></canvas></div>
+    <div class="video-controls"><label class="outline" style="padding:7px 9px;border-radius:8px;font-size:12px;color:#172338;background:#fff">動画を選択 <input type="file" id="studentFile" accept="video/*" hidden></label><button class="secondary" id="studentCamera">撮影</button><button class="secondary" id="studentPose">骨格表示</button></div>
+   </div>
+  </div>
+  <div class="toolbar">
+   <button id="playBoth">2つの動画を同期再生</button><button class="secondary" id="pauseBoth">一時停止</button><button class="secondary" id="syncStart">先頭に戻す</button>
+   <label class="tiny muted"><input type="checkbox" id="syncToggle" checked> 再生位置を同期</label>
+  </div>
+  <div class="field"><label for="memo">自分で気づいたこと・先生からのコメント</label><textarea id="memo" placeholder="できたこと、次に意識したいことなど"></textarea></div>
+  <div class="toolbar"><button id="analyzeBtn">現在の姿勢を分析</button><button class="secondary" id="saveRecord">記録を保存</button></div>
+  <div id="analysisStatus" class="status">動画を読み込むと、現在のフレームの姿勢を分析できます。骨格表示は動画上に重ねて表示します。</div>
+  <div class="analysis-grid">
+   <div class="analysis-card"><h3>姿勢の特徴</h3><p id="poseSummary">分析すると、検出できた関節の位置関係を表示します。</p></div>
+   <div class="analysis-card"><h3>意識したいポイント</h3><p id="poseAdvice">技のポイントを確認しながら、動画を見比べてみましょう。</p></div>
+  </div>
+ </div>
+</section>
+
+<section id="recordsView" class="view">
+ <div class="section-head"><div><h2>学習記録</h2><div class="sub">この端末のブラウザ内に保存された記録です。</div></div><button class="outline fit" id="recordsBack">技の一覧へ戻る</button></div>
+ <div class="panel"><div class="row"><div class="field"><label>名前で絞り込む</label><input id="recordSearch" placeholder="生徒名"></div><div class="field"><label>技で絞り込む</label><input id="recordSkillSearch" placeholder="技名"></div></div><div id="recordList" class="record-list"></div></div>
+</section>
+
+<section id="teacherView" class="view">
+ <div class="section-head"><div><h2>先生ページ</h2><div class="sub">技の管理、参考動画の登録、データの引き継ぎを行います。</div></div><button class="outline fit" id="teacherBack">戻る</button></div>
+ <div id="teacherLogin" class="panel">
+  <h3 style="margin-top:0">先生用PIN</h3><div class="field"><label for="teacherPinInput">PINを入力</label><input id="teacherPinInput" type="password" inputmode="numeric" placeholder="初期PIN：1234"></div><button id="teacherLoginBtn">ログイン</button><div class="sub">初期PINは1234です。ログイン後に変更できます。</div>
+ </div>
+ <div id="teacherContent" class="hidden">
+  <div class="admin-tabs"><button class="active" data-tab="skillsAdmin">技の管理</button><button data-tab="refsAdmin">参考動画</button><button data-tab="dataAdmin">データ管理</button><button data-tab="settingsAdmin">設定</button></div>
+  <div id="skillsAdmin" class="admin-panel active panel">
+   <h3>技の追加・編集</h3><input type="hidden" id="editSkillId">
+   <div class="row"><div class="field"><label>技の名前</label><input id="editSkillName" placeholder="例：開脚跳び"></div><div class="field"><label>分類</label><select id="editSkillCategory"><option>切り返し系</option><option>回転系</option><option>その他</option></select></div></div>
+   <div class="field"><label>技のポイント・説明</label><textarea id="editSkillDesc" placeholder="技の観察ポイントを入力"></textarea></div>
+   <div class="toolbar"><button id="saveSkill">技を保存</button><button class="secondary" id="cancelSkillEdit">入力をクリア</button></div>
+   <div id="adminSkillList" class="record-list"></div>
+  </div>
+  <div id="refsAdmin" class="admin-panel panel">
+   <h3>技ごとの参考動画</h3><div class="field"><label>対象の技</label><select id="refSkillSelect"></select></div>
+   <div class="field"><label>参考動画ファイル</label><input type="file" id="teacherRefFile" accept="video/*"></div>
+   <div class="field"><label>動画の説明（任意）</label><input id="teacherRefNote" placeholder="例：横から撮影した見本"></div>
+   <button id="saveTeacherRef">参考動画を登録</button><div id="teacherRefList" class="record-list" style="margin-top:12px"></div>
+  </div>
+  <div id="dataAdmin" class="admin-panel panel">
+   <h3>参考動画セットの書き出し・読み込み</h3>
+   <p class="sub">技の情報と登録した参考動画をZIP形式で保存できます。別の端末では、同じアプリを開いてZIPを読み込んでください。</p>
+   <div class="toolbar"><button id="exportZip">参考動画セットをZIPで書き出す</button><label class="outline" style="padding:9px 12px;border-radius:9px;font-size:13px;font-weight:650">ZIPを読み込む <input type="file" id="importZip" accept=".zip,application/zip" hidden></label></div>
+   <hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+   <h3>学習記録</h3><div class="toolbar"><button class="secondary" id="exportRecords">記録をJSONで書き出す</button><button class="danger" id="clearRecords">この端末の学習記録を削除</button></div>
+  </div>
+  <div id="settingsAdmin" class="admin-panel panel">
+   <h3>先生用PINの変更</h3><div class="field"><label>現在のPIN</label><input id="oldPin" type="password"></div><div class="field"><label>新しいPIN（4桁以上）</label><input id="newPin" type="password" inputmode="numeric"></div><button id="changePin">PINを変更</button>
+  </div>
+  <div class="toolbar"><button class="outline" id="teacherLogout">ログアウト</button></div>
+ </div>
+</section>
+</main>
+<footer>VAULT COACHING · 学習の振り返りを支援するツール</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script type="module">
+import { PoseLandmarker, FilesetResolver, DrawingUtils } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
+const $=id=>document.getElementById(id);
+const defaultSkills=[
+{id:"s1",name:"開脚跳び",category:"切り返し系",desc:"両手で支持し、脚を左右に開いて跳び越す。手を着く位置、腰の高さ、着地の安定を観察する。"},
+{id:"s2",name:"かかえ込み跳び",category:"切り返し系",desc:"踏み切り後に膝を胸に引き寄せ、両手で支持して跳び越す。膝の引きつけと着地を観察する。"},
+{id:"s3",name:"屈身跳び",category:"切り返し系",desc:"身体を前屈させ、脚を伸ばした状態で跳び越す。支持局面の腰の位置と脚の伸びを観察する。"},
+{id:"s4",name:"伸身跳び",category:"切り返し系",desc:"身体を伸ばした姿勢で跳び越す。空中姿勢と着地の安定を観察する。"},
+{id:"s5",name:"前方屈腕倒立回転跳び",category:"回転系",desc:"両手で支持し、前方へ回転しながら跳び越す。手の支持、肩の位置、回転後の着地を観察する。"},
+{id:"s6",name:"前方倒立回転跳び",category:"回転系",desc:"倒立に近い姿勢を経て前方へ回転し、跳び越す。手の着き方、身体の伸び、着地を観察する。"},
+{id:"s7",name:"側方倒立回転跳び",category:"回転系",desc:"身体を側方へ回転させながら跳び越す。手の支持位置、身体の横向きの回転、着地を観察する。"},
+{id:"s8",name:"頭はね跳び",category:"回転系",desc:"頭部と両手で支持する局面を経て、身体をはね上げて越える。安全に配慮し、指導者の管理下で行う。"},
+{id:"s9",name:"台上前転",category:"回転系",desc:"跳び箱上で前転する。手の支持、背中を丸める動き、回転後の姿勢を観察する。"},
+{id:"s10",name:"抱え込み跳び",category:"切り返し系",desc:"膝を抱え込むようにして跳び越す。膝の引きつけと支持局面を観察する。"},
+{id:"s11",name:"開脚伸身跳び",category:"切り返し系",desc:"脚を左右に開き、身体を伸ばして跳び越す。脚の開きと上体の姿勢を観察する。"},
+{id:"s12",name:"その他の技",category:"その他",desc:"先生が追加した技や、個別に設定した技の動画を比較する。"}
+];
+let skills=JSON.parse(localStorage.getItem("vault_skills")||"null")||defaultSkills;
+let records=JSON.parse(localStorage.getItem("vault_records")||"[]");
+let pin=localStorage.getItem("vault_pin")||"1234";
+let selectedSkill=null,poseLandmarker=null,poseReady=false,poseBusy=false;
+let showRefPose=false,showStudentPose=false,refStream=null,studentStream=null,refObjectUrl=null,studentObjectUrl=null;
+let db;
+const DB_NAME="vault_coaching_db",DB_VERSION=1;
+function openDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,DB_VERSION);req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains("refs"))d.createObjectStore("refs",{keyPath:"id"});};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
+function dbPut(value){return new Promise((resolve,reject)=>{const tx=db.transaction("refs","readwrite");tx.objectStore("refs").put(value);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});}
+function dbGetAll(){return new Promise((resolve,reject)=>{const req=db.transaction("refs").objectStore("refs").getAll();req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
+function dbDelete(id){return new Promise((resolve,reject)=>{const tx=db.transaction("refs","readwrite");tx.objectStore("refs").delete(id);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});}
+function persistSkills(){localStorage.setItem("vault_skills",JSON.stringify(skills));}
+function persistRecords(){localStorage.setItem("vault_records",JSON.stringify(records));}
+function showView(name){document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));$(name+"View").classList.add("active");window.scrollTo({top:0,behavior:"smooth"});}
+function escapeHtml(s=""){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function renderSkills(){const q=$("skillSearch").value.trim().toLowerCase();$("skillGrid").innerHTML=skills.filter(s=>(s.name+" "+s.category).toLowerCase().includes(q)).map(s=>`<button class="skill-card" data-skill="${escapeHtml(s.id)}"><span class="tag">${escapeHtml(s.category)}</span><strong>${escapeHtml(s.name)}</strong><span>${escapeHtml(s.desc||"")}</span></button>`).join("")||'<div class="status">該当する技がありません。</div>';document.querySelectorAll("[data-skill]").forEach(b=>b.addEventListener("click",()=>openSkill(b.dataset.skill)));}
+async function openSkill(id){selectedSkill=skills.find(s=>s.id===id);if(!selectedSkill)return;$("selectedSkillTitle").textContent=selectedSkill.name;$("selectedSkillDesc").textContent=selectedSkill.desc||"";$("coachSkillName").value=selectedSkill.name;$("coachStudentName").value=$("studentName").value.trim();$("memo").value="";$("poseSummary").textContent="分析すると、検出できた関節の位置関係を表示します。";$("poseAdvice").textContent="技のポイントを確認しながら、動画を見比べてみましょう。";$("analysisStatus").textContent="動画を読み込むと、現在のフレームの姿勢を分析できます。";await loadReferenceForSkill(id);showView("coach");}
+async function loadReferenceForSkill(skillId){const refs=await dbGetAll();const ref=refs.filter(r=>r.skillId===skillId).sort((a,b)=>(b.created||0)-(a.created||0))[0];if(ref){setVideo("ref",URL.createObjectURL(ref.blob));$("refStage").querySelector(".video-placeholder")?.remove();}else{clearVideo("ref");}}
+function clearVideo(which){const v=$(which+"Video");v.pause();v.removeAttribute("src");v.load();const c=$(which+"Canvas");c.getContext("2d").clearRect(0,0,c.width,c.height);$(which+"Stage").querySelector(".video-placeholder")?.remove();const ph=document.createElement("div");ph.className="video-placeholder";ph.textContent=which==="ref"?"参考動画は未登録です。動画を選択して読み込めます。":"自分の動画を読み込むか、カメラで撮影してください。";$(which+"Stage").prepend(ph);}
+function setVideo(which,url){const v=$(which+"Video");v.src=url;v.load();$(which+"Stage").querySelector(".video-placeholder")?.remove();v.onloadedmetadata=()=>resizeCanvas(which);}
+function resizeCanvas(which){const v=$(which+"Video"),c=$(which+"Canvas");c.width=v.videoWidth||640;c.height=v.videoHeight||360;}
+function loadLocalVideo(which,file){if(!file)return;const url=URL.createObjectURL(file);if(which==="ref"&&refObjectUrl)URL.revokeObjectURL(refObjectUrl);if(which==="student"&&studentObjectUrl)URL.revokeObjectURL(studentObjectUrl);if(which==="ref")refObjectUrl=url;else studentObjectUrl=url;setVideo(which,url);}
+$("homeBtn").onclick=()=>showView("home");$("backHome").onclick=()=>showView("home");$("recordsBack").onclick=()=>showView("home");$("teacherBack").onclick=()=>showView("home");$("recordsBtn").onclick=()=>{renderRecords();showView("records");};$("teacherBtn").onclick=()=>{ $("teacherLogin").classList.remove("hidden");$("teacherContent").classList.add("hidden");$("teacherPinInput").value="";showView("teacher");};
+$("skillSearch").addEventListener("input",renderSkills);
+$("refFile").onchange=e=>loadLocalVideo("ref",e.target.files[0]);$("studentFile").onchange=e=>loadLocalVideo("student",e.target.files[0]);
+$("playBoth").onclick=async()=>{const a=$("refVideo"),b=$("studentVideo");if(!a.src&&!b.src){setStatus("analysisStatus","先に動画を読み込んでください。",true);return;}if(a.src&&b.src&&$("syncToggle").checked){b.currentTime=Math.min(a.currentTime,b.duration||a.currentTime); }await Promise.all([a.src?a.play().catch(()=>{}):Promise.resolve(),b.src?b.play().catch(()=>{}):Promise.resolve()]);};
+$("pauseBoth").onclick=()=>{$("refVideo").pause();$("studentVideo").pause();};$("syncStart").onclick=()=>{$("refVideo").currentTime=0;$("studentVideo").currentTime=0;};
+$("refVideo").addEventListener("play",()=>syncPlay("ref"));$("studentVideo").addEventListener("play",()=>syncPlay("student"));
+function syncPlay(source){if(!$("syncToggle").checked)return;const a=$("refVideo"),b=$("studentVideo");if(!a.src||!b.src)return;const src=source==="ref"?a:b,dst=source==="ref"?b:a;if(Math.abs(src.currentTime-dst.currentTime)>.35)dst.currentTime=src.currentTime;}
+$("refPose").onclick=()=>{showRefPose=!showRefPose;$("refPose").textContent=showRefPose?"骨格を非表示":"骨格表示";drawCurrentPose("ref");};$("studentPose").onclick=()=>{showStudentPose=!showStudentPose;$("studentPose").textContent=showStudentPose?"骨格を非表示":"骨格表示";drawCurrentPose("student");};
+function setStatus(id,msg,error=false){$(id).textContent=msg;$(id).className="status"+(error?" error":"");}
+async function initPose(){if(poseReady)return true;if(poseBusy)return false;poseBusy=true;setStatus("analysisStatus","姿勢推定モデルを読み込んでいます…");try{const vision=await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm");poseLandmarker=await PoseLandmarker.createFromOptions(vision,{baseOptions:{modelAssetPath:"https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task",delegate:"GPU"},runningMode:"VIDEO",numPoses:1});poseReady=true;setStatus("analysisStatus","姿勢推定の準備ができました。");return true;}catch(err){console.error(err);setStatus("analysisStatus","姿勢推定モデルを読み込めませんでした。インターネット接続を確認してください。",true);return false;}finally{poseBusy=false;}}
+async function getPose(which){const v=$(which+"Video");if(!v.src||v.readyState<2)throw new Error("先に動画を読み込んでください。");if(!await initPose())throw new Error("姿勢推定を初期化できませんでした。");const result=poseLandmarker.detectForVideo(v,performance.now());return result.landmarks?.[0]||null;}
+const connections=[[11,12],[11,13],[13,15],[12,14],[14,16],[11,23],[12,24],[23,24],[23,25],[25,27],[24,26],[26,28],[27,29],[29,31],[28,30],[30,32],[15,17],[15,19],[16,18],[16,20]];
+function drawLandmarks(which,landmarks){const v=$(which+"Video"),c=$(which+"Canvas"),ctx=c.getContext("2d");if(!v.videoWidth)return;resizeCanvas(which);ctx.clearRect(0,0,c.width,c.height);if(!landmarks)return;ctx.lineWidth=Math.max(2,c.width/300);ctx.strokeStyle="#38bdf8";ctx.fillStyle="#f8fbff";for(const [a,b] of connections){const p=landmarks[a],q=landmarks[b];if(p&&q&&p.visibility>.35&&q.visibility>.35){ctx.beginPath();ctx.moveTo(p.x*c.width,p.y*c.height);ctx.lineTo(q.x*c.width,q.y*c.height);ctx.stroke();}}for(const p of landmarks){if(p.visibility>.35){ctx.beginPath();ctx.arc(p.x*c.width,p.y*c.height,Math.max(3,c.width/180),0,Math.PI*2);ctx.fill();}}}
+async function drawCurrentPose(which){const enabled=which==="ref"?showRefPose:showStudentPose;if(!enabled){const c=$(which+"Canvas");c.getContext("2d").clearRect(0,0,c.width,c.height);return;}try{const lm=await getPose(which);drawLandmarks(which,lm);}catch(e){console.warn(e);}}
+$("analyzeBtn").onclick=async()=>{try{if(!selectedSkill)throw new Error("技を選択してください。");const lm=await getPose("student");if(!lm){setStatus("analysisStatus","人物の姿勢を検出できませんでした。全身が映る位置から撮影してください。",true);return;}drawLandmarks("student",lm);const get=i=>lm[i];const vis=[11,12,23,24,25,26,27,28].map(i=>get(i).visibility||0).reduce((a,b)=>a+b,0)/8;const shoulder=(get(11).y+get(12).y)/2,hip=(get(23).y+get(24).y)/2,knee=(get(25).y+get(26).y)/2,ankle=(get(27).y+get(28).y)/2;const shoulderWidth=Math.abs(get(11).x-get(12).x),hipWidth=Math.abs(get(23).x-get(24).x);const torso=Math.abs(hip-shoulder);let posture=torso>.02?"肩と腰の位置に差が見られ、上体の傾きが確認できます。":"肩と腰の位置が近く、上体が比較的まっすぐに見えます。";let legs=knee<ankle?"膝が足首より上に位置しています。":"膝と足首の位置関係を確認しましょう。";let advice=selectedSkill.desc||"参考動画と見比べ、手の支持、空中姿勢、着地の3点を確認しましょう。";if(selectedSkill.category==="切り返し系")advice+=" 特に、踏み切り後の腰の高さ、手で支持する位置、脚の開き・引きつけ、着地時の安定を確認しましょう。";else if(selectedSkill.category==="回転系")advice+=" 特に、手の支持位置、肩から腰までの姿勢、回転の方向、着地の安定を確認しましょう。";$("poseSummary").textContent=`全身の検出度：約${Math.round(vis*100)}%。${posture} ${legs} ※この表示は1フレームの関節位置に基づく参考情報です。`; $("poseAdvice").textContent=advice;setStatus("analysisStatus","現在のフレームを分析しました。参考動画と同じ局面で比較すると、動きの違いを確認しやすくなります。");}catch(e){setStatus("analysisStatus",e.message||"分析に失敗しました。",true);}};
+$("saveRecord").onclick=()=>{const name=$("coachStudentName").value.trim();if(!name){setStatus("analysisStatus","記録を保存するには生徒名を入力してください。",true);return;}if(!selectedSkill)return;records.unshift({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),name,skillId:selectedSkill.id,skillName:selectedSkill.name,date:new Date().toISOString(),memo:$("memo").value,summary:$("poseSummary").textContent,advice:$("poseAdvice").textContent});persistRecords();setStatus("analysisStatus","学習記録をこの端末に保存しました。");};
+function renderRecords(){const q=$("recordSearch").value.trim().toLowerCase(),s=$("recordSkillSearch").value.trim().toLowerCase();const list=records.filter(r=>r.name.toLowerCase().includes(q)&&r.skillName.toLowerCase().includes(s));$("recordList").innerHTML=list.map(r=>`<div class="record"><div><strong>${escapeHtml(r.name)} ／ ${escapeHtml(r.skillName)}</strong><small>${new Date(r.date).toLocaleString("ja-JP")}</small><div class="tiny">${escapeHtml(r.memo||"コメントなし")}</div></div><button class="danger fit" data-del-record="${escapeHtml(r.id)}">削除</button></div>`).join("")||'<div class="muted tiny">保存された記録はありません。</div>';document.querySelectorAll("[data-del-record]").forEach(b=>b.onclick=()=>{if(confirm("この記録を削除しますか？")){records=records.filter(r=>r.id!==b.dataset.delRecord);persistRecords();renderRecords();}});}
+$("recordSearch").oninput=renderRecords;$("recordSkillSearch").oninput=renderRecords;
+async function startCamera(which){try{const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"},audio:true});const v=$(which+"Video");if(which==="ref"&&refStream)refStream.getTracks().forEach(t=>t.stop());if(which==="student"&&studentStream)studentStream.getTracks().forEach(t=>t.stop());if(which==="ref")refStream=stream;else studentStream=stream;v.srcObject=stream;await v.play();$(which+"Stage").querySelector(".video-placeholder")?.remove();resizeCanvas(which);const old=$(which+"Stage").querySelector(".camera-save");old?.remove();const save=document.createElement("button");save.className="camera-save";save.textContent="撮影を終了して動画を保存";save.style.cssText="position:absolute;bottom:8px;left:8px;z-index:3;background:#fff;color:#172338;font-size:11px";save.onclick=()=>recordCamera(which,stream,save);$(which+"Stage").append(save);}catch(e){setStatus("analysisStatus","カメラを利用できません。ブラウザのカメラ権限とHTTPS接続を確認してください。",true);}}
+async function recordCamera(which,stream,button){if(!window.MediaRecorder){alert("このブラウザは動画録画に対応していません。");return;}const chunks=[];const recorder=new MediaRecorder(stream);recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data);};recorder.onstop=()=>{const blob=new Blob(chunks,{type:recorder.mimeType||"video/webm"});const url=URL.createObjectURL(blob);const v=$(which+"Video");v.pause();v.srcObject=null;v.src=url;v.load();if(which==="ref")refObjectUrl=url;else studentObjectUrl=url;stream.getTracks().forEach(t=>t.stop());button.remove();};recorder.start();button.textContent="録画中：クリックして終了";button.onclick=()=>recorder.stop();}
+$("refCamera").onclick=()=>startCamera("ref");$("studentCamera").onclick=()=>startCamera("student");
+$("teacherLoginBtn").onclick=()=>{if($("teacherPinInput").value!==pin){alert("PINが違います。");return;}$("teacherLogin").classList.add("hidden");$("teacherContent").classList.remove("hidden");renderAdmin();};
+$("teacherPinInput").addEventListener("keydown",e=>{if(e.key==="Enter")$("teacherLoginBtn").click();});
+document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-tab]").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".admin-panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");$(b.dataset.tab).classList.add("active");});
+function renderAdmin(){ $("adminSkillList").innerHTML=skills.map(s=>`<div class="record"><div><strong>${escapeHtml(s.name)}</strong><small>${escapeHtml(s.category)}</small></div><div class="row" style="flex:0 0 auto"><button class="secondary fit" data-edit="${s.id}">編集</button><button class="danger fit" data-remove="${s.id}">削除</button></div></div>`).join("");document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>{const s=skills.find(x=>x.id===b.dataset.edit);$("editSkillId").value=s.id;$("editSkillName").value=s.name;$("editSkillCategory").value=s.category;$("editSkillDesc").value=s.desc||"";});document.querySelectorAll("[data-remove]").forEach(b=>b.onclick=()=>{if(confirm("この技を削除しますか？")){skills=skills.filter(s=>s.id!==b.dataset.remove);persistSkills();renderAdmin();renderSkills();}});$("refSkillSelect").innerHTML=skills.map(s=>`<option value="${s.id}">${escapeHtml(s.name)}</option>`).join("");renderTeacherRefs();}
+$("saveSkill").onclick=()=>{const name=$("editSkillName").value.trim();if(!name){alert("技の名前を入力してください。");return;}const id=$("editSkillId").value||"custom-"+Date.now();const obj={id,name,category:$("editSkillCategory").value,desc:$("editSkillDesc").value.trim()};const i=skills.findIndex(s=>s.id===id);if(i>=0)skills[i]=obj;else skills.push(obj);persistSkills();clearSkillForm();renderAdmin();renderSkills();};
+function clearSkillForm(){$("editSkillId").value="";$("editSkillName").value="";$("editSkillDesc").value="";$("editSkillCategory").value="切り返し系";}
+$("cancelSkillEdit").onclick=clearSkillForm;
+async function renderTeacherRefs(){const refs=await dbGetAll();const skillId=$("refSkillSelect").value;const list=refs.filter(r=>!skillId||r.skillId===skillId);$("teacherRefList").innerHTML=list.map(r=>`<div class="record"><div><strong>${escapeHtml(r.skillName||"参考動画")}</strong><small>${escapeHtml(r.note||"説明なし")} · ${new Date(r.created||Date.now()).toLocaleDateString("ja-JP")}</small></div><button class="danger fit" data-del-ref="${r.id}">削除</button></div>`).join("")||'<div class="muted tiny">登録された参考動画はありません。</div>';document.querySelectorAll("[data-del-ref]").forEach(b=>b.onclick=async()=>{if(confirm("この参考動画を削除しますか？")){await dbDelete(b.dataset.delRef);renderTeacherRefs();}});}
+$("refSkillSelect").onchange=renderTeacherRefs;
+$("saveTeacherRef").onclick=async()=>{const file=$("teacherRefFile").files[0],skill=skills.find(s=>s.id===$("refSkillSelect").value);if(!file||!skill){alert("技と動画ファイルを選択してください。");return;}try{await dbPut({id:"ref-"+Date.now(),skillId:skill.id,skillName:skill.name,note:$("teacherRefNote").value.trim(),blob:file,created:Date.now(),fileName:file.name});$("teacherRefFile").value="";$("teacherRefNote").value="";await renderTeacherRefs();alert("参考動画を登録しました。");}catch(e){alert("保存できませんでした。端末の空き容量を確認してください。");}};
+$("exportZip").onclick=async()=>{if(!window.JSZip){alert("ZIP機能を読み込めませんでした。ネット接続を確認してください。");return;}const zip=new JSZip(),refs=await dbGetAll();zip.file("skills.json",JSON.stringify(skills,null,2));const folder=zip.folder("videos");for(const r of refs){folder.file(r.id+".bin",r.blob);zip.file("refs/"+r.id+".json",JSON.stringify({id:r.id,skillId:r.skillId,skillName:r.skillName,note:r.note,created:r.created,fileName:r.fileName}));}const blob=await zip.generateAsync({type:"blob"});downloadBlob(blob,"vault_reference_set.zip");};
+$("importZip").onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const zip=await JSZip.loadAsync(file);const skillFile=zip.file("skills.json");if(skillFile){const imported=JSON.parse(await skillFile.async("string"));if(Array.isArray(imported)){skills=imported;persistSkills();}}const metaFiles=Object.keys(zip.files).filter(n=>n.startsWith("refs/")&&n.endsWith(".json"));for(const n of metaFiles){const meta=JSON.parse(await zip.file(n).async("string"));const blobFile=zip.file("videos/"+meta.id+".bin");if(blobFile){const blob=await blobFile.async("blob");await dbPut({...meta,blob});}}renderAdmin();renderSkills();alert("参考動画セットを読み込みました。");}catch(err){console.error(err);alert("ZIPを読み込めませんでした。ファイル形式を確認してください。");}e.target.value="";};
+function downloadBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);}
+$("exportRecords").onclick=()=>downloadBlob(new Blob([JSON.stringify(records,null,2)],{type:"application/json"}),"vault_learning_records.json");
+$("clearRecords").onclick=()=>{if(confirm("この端末に保存された学習記録をすべて削除しますか？")){records=[];persistRecords();alert("学習記録を削除しました。");}};
+$("changePin").onclick=()=>{if($("oldPin").value!==pin){alert("現在のPINが違います。");return;}const n=$("newPin").value;if(n.length<4){alert("新しいPINは4桁以上にしてください。");return;}pin=n;localStorage.setItem("vault_pin",pin);$("oldPin").value="";$("newPin").value="";alert("PINを変更しました。");};
+$("teacherLogout").onclick=()=>{$("teacherContent").classList.add("hidden");$("teacherLogin").classList.remove("hidden");showView("home");};
+$("coachStudentName").addEventListener("input",e=>$("studentName").value=e.target.value);
+(async()=>{try{db=await openDB();renderSkills();}catch(e){console.error(e);$("skillGrid").innerHTML='<div class="status error">このブラウザではデータ保存機能を利用できません。最新のChromeまたはEdgeで開いてください。</div>';}})();
+</script>
+</body>
+</html>
